@@ -8,6 +8,17 @@ body {
     margin:0px;
 }
 
+.page {
+    font-family: sans-serif;
+    font-size:30px;
+    color:white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:0px;
+}
+
 .header {
     color: #e4f1fe;
     background-color: #34495e;
@@ -19,18 +30,35 @@ body {
     flex-direction:row;
 }
 
+.restart {
+    height:50px;
+    width:150px;
+    font-family:sans-serif;
+    font-size:20px;
+    padding:10px;
+}
+
 .square {
     width: 100px;
     height: 100px;
+    text-align: center;
+    line-height:90px;
+    font-size: 50px;
     border: solid black 1px;
     background-color:lightblue;
-    margin: 5px;
+    margin: 4px;
+    cursor: pointer;
 }
 
 .board {
+    width: 340px;
+    height: 340px;
     display:flex;
     margin:50px;
     justify-content:center;
     align-items:center;
-    flex-direction:column;
+    display:grid;
+    grid-template-rows: repeat(3,1fr);
+    grid-template-columns: repeat(3,1fr);
+    grid-gap:
 }

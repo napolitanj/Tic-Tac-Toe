@@ -1,24 +1,25 @@
-const gameBoard = (() => {
+const createPlayer = (playerName, sign) => {
+    return {playerName, sign};
+}
 
-    const createGrid = (() => {
-        const grid = [];
-        const board = document.getElementById("board");
-        board.className="board";
+const playerOne = createPlayer("Joe", "X");
+console.log(playerOne);
 
-        for (let i = 0; i < 3; i++) {
-            let row = document.createElement("div");
-            row.className="row";
-            grid.push("");
+const createBoard = (() => {
+    
+    //Create board array
+    let gameBoard = [];
+    for(i = 0; i < 9; i++) 
+        gameBoard.push("");
+    
+    //Create board graphic
+    const board = document.getElementById("board");
+    console.log(gameBoard);
+    gameBoard.forEach((element) => {
+        console.log(element);
+        const square = document.createElement("div");
+        square.className = "square";
+        board.appendChild(square);
+    });
 
-            for (let x = 0; x < 3; x++) {
-                let square = document.createElement("div");
-                square.className="square";
-                row.appendChild(square);
-                console.log(x);
-                grid.push("");
-            }  
-            board.appendChild(row);
-            console.log(grid); 
-        }
-    })();
 })();
