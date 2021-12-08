@@ -5,6 +5,12 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
 -----------
+Version 0.3
+-----------
+
+The application now places an "X" on a square when clicked, and the reset button clicks. Additionally there is a display.
+
+-----------
 Version 0.2
 -----------
 
