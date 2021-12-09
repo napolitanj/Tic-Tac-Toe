@@ -5,6 +5,12 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
 -----------
+Version 0.4
+-----------
+
+A small update, linking the divs on the board to an array.
+
+-----------
 Version 0.3
 -----------
 
