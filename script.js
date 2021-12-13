@@ -28,13 +28,14 @@ const createBoard = (() => {
     
     //Event listener for squares.
     let theBoard = Array.from(board.children)
-    theBoard.forEach((element, i) => {
+    theBoard.forEach((element) => {
         element.addEventListener('click', () => {
-            element.innerText = gameController.player.sign;
-            console.log(theBoard[i])
+            console.log(gameController.player.sign)
+            element.innerText = gameController.player.sign,
+            gameController.gameWon(theBoard, element.innerText),
+            gameController.takeTurn();
         });
     });
-
     
     
 })();
@@ -44,13 +45,22 @@ const gameController = (() => {
     const playerTwo = createPlayer("Player 2", "O");
     let gameOver = false;
     let turns = 9;
-    let player = playerOne;
-    console.log(playerOne);
-
-    //Continuously updating display
+    this.player = playerOne;
     let display = document.getElementById("display");
     display.innerText = "It is " + player.sign + "'s turn. Choose a square";
-     
+
+    //Takes a players turn and switches player.
+    this.takeTurn = function() {
+        if (this.player === playerOne) {
+            this.player = playerTwo
+        }
+        else if (this.player === playerTwo) {
+            this.player = playerOne
+        }
+        display.innerText = "It is " + this.player.sign + "'s turn. Choose a square";
+        console.log(player)
+    }
+
     //Winning Combos
     let winningCombo = [
         [1,2,3],
@@ -64,12 +74,18 @@ const gameController = (() => {
     ];
 
     //Determine if the array matches a winning combo
-    
+    const gameWon = (array, sign)=> {
+        for (i = 0; i < array.length; i++)
+            if (array[i] = sign && winningCombo != "" && array[i] == winningCombo)
+        console.log("win!");
+    }
+
 
     //Game Over
    return {
        player,
-       winningCombo
+       gameWon,
+       takeTurn
    }
 
 })();
