@@ -5,6 +5,22 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
 -----------
+Version 0.7
+-----------
+
+Updates:
+
+- Acknowledges when a game is won, but only for X.
+
+-----------
+Version 0.6
+-----------
+
+Updates:
+
+- Prevents selection of an occupied space.
+
+-----------
 Version 0.5
 -----------
 

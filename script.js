@@ -23,42 +23,56 @@ const createBoard = (() => {
         squares.forEach(item => {
             item.innerText = "";
             gameBoard[i] = "";
+            theBoard[i] = "";
+            gameController.init();
         })
     });
     
-    //Event listener for squares.
+    //Event listener for squares - prevents selecting an occupied space.
     let theBoard = Array.from(board.children)
-    theBoard.forEach((element) => {
+    theBoard.forEach((element,index) => {
         element.addEventListener('click', () => {
-            console.log(gameController.player.sign)
-            element.innerText = gameController.player.sign,
-            gameController.gameWon(theBoard, element.innerText),
-            gameController.takeTurn();
+            if (element.innerText != "" || gameController.gameOver === true) {
+                return;
+            }
+            else
+            element.innerText = gameController.player.sign;
+            theBoard[index] = gameController.player.sign;
+            gameController.gameWon();
+            gameController.takeTurn(); 
         });
     });
-    
+
+    return {
+        theBoard
+    }
     
 })();
 
 const gameController = (() => {
     const playerOne = createPlayer("Player 1", "X");
     const playerTwo = createPlayer("Player 2", "O");
-    let gameOver = false;
-    let turns = 9;
-    this.player = playerOne;
-    let display = document.getElementById("display");
-    display.innerText = "It is " + player.sign + "'s turn. Choose a square";
+        let gameOver = false;
+        let turns = 9;
+        this.player = playerOne;
+        let display = document.getElementById("display");
+        display.innerText = "It is " + player.sign + "'s turn. Choose a square";
+
 
     //Takes a players turn and switches player.
     this.takeTurn = function() {
-        if (this.player === playerOne) {
+        console.log(gameOver)
+        if (gameOver === true) {
+            return;
+        }
+        else if (this.player === playerOne) {
             this.player = playerTwo
+            display.innerText = "It is " + this.player.sign + "'s turn. Choose a square";
         }
         else if (this.player === playerTwo) {
             this.player = playerOne
+            display.innerText = "It is " + this.player.sign + "'s turn. Choose a square";
         }
-        display.innerText = "It is " + this.player.sign + "'s turn. Choose a square";
-        console.log(player)
     }
 
     //Winning Combos
@@ -74,18 +88,23 @@ const gameController = (() => {
     ];
 
     //Determine if the array matches a winning combo
-    const gameWon = (array, sign)=> {
-        for (i = 0; i < array.length; i++)
-            if (array[i] = sign && winningCombo != "" && array[i] == winningCombo)
-        console.log("win!");
+    function gameWon() {
+        console.log(this.player.sign)
+        winningCombo.forEach(function(element) {  
+            if (createBoard.theBoard[element[0] -1] === this.player.sign && createBoard.theBoard[element[1] -1] === this.player.sign && createBoard.theBoard[element[2] -1 ] === this.player.sign) {
+            gameOver = true;
+            display.innerText = this.player.sign + " has won!"
+            console.log("win")
+            }
+        })
     }
 
 
     //Game Over
    return {
-       player,
-       gameWon,
-       takeTurn
+        player,
+        gameWon,
+        takeTurn
    }
 
 })();
