@@ -4,6 +4,15 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
+-------------
+Version 0.7.1
+-------------
+
+Updates:
+
+- Acknowledges when both O and X have won.
+
+
 -----------
 Version 0.7
 -----------

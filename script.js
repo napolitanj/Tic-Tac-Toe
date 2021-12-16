@@ -24,7 +24,6 @@ const createBoard = (() => {
             item.innerText = "";
             gameBoard[i] = "";
             theBoard[i] = "";
-            gameController.init();
         })
     });
     
@@ -38,8 +37,9 @@ const createBoard = (() => {
             else
             element.innerText = gameController.player.sign;
             theBoard[index] = gameController.player.sign;
-            gameController.gameWon();
-            gameController.takeTurn(); 
+            console.log(theBoard[index])
+            gameController.gameWon(gameController.player);
+            gameController.takeTurn(gameController.player); 
         });
     });
 
@@ -54,22 +54,21 @@ const gameController = (() => {
     const playerTwo = createPlayer("Player 2", "O");
         let gameOver = false;
         let turns = 9;
-        this.player = playerOne;
+        player = playerOne;
         let display = document.getElementById("display");
         display.innerText = "It is " + player.sign + "'s turn. Choose a square";
 
 
     //Takes a players turn and switches player.
-    this.takeTurn = function() {
-        console.log(gameOver)
+    takeTurn = function(currentPlayer) {
         if (gameOver === true) {
             return;
         }
-        else if (this.player === playerOne) {
+        else if (currentPlayer === playerOne) {
             this.player = playerTwo
             display.innerText = "It is " + this.player.sign + "'s turn. Choose a square";
         }
-        else if (this.player === playerTwo) {
+        else if (currentPlayer === playerTwo) {
             this.player = playerOne
             display.innerText = "It is " + this.player.sign + "'s turn. Choose a square";
         }
@@ -88,12 +87,12 @@ const gameController = (() => {
     ];
 
     //Determine if the array matches a winning combo
-    function gameWon() {
+    function gameWon(currentPlayer) {
         console.log(this.player.sign)
         winningCombo.forEach(function(element) {  
-            if (createBoard.theBoard[element[0] -1] === this.player.sign && createBoard.theBoard[element[1] -1] === this.player.sign && createBoard.theBoard[element[2] -1 ] === this.player.sign) {
+            if (createBoard.theBoard[element[0] -1] === currentPlayer.sign && createBoard.theBoard[element[1] -1] === currentPlayer.sign && createBoard.theBoard[element[2] -1 ] === currentPlayer.sign) {
             gameOver = true;
-            display.innerText = this.player.sign + " has won!"
+            display.innerText = "Game over! " + currentPlayer.sign + " has won!"
             console.log("win")
             }
         })
