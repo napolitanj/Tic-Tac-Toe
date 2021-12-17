@@ -3,14 +3,12 @@ const createPlayer = (playerName, sign) => {
 }
 
 const createBoard = (() => {
-    
-    //Create board array
+    const board = document.getElementById("board");
     let gameBoard = [];
+
+    //Create board array and generate graphic
     for(i = 0; i < 9; i++) 
         gameBoard.push("");
-    
-    //Create board graphic
-    const board = document.getElementById("board");
     gameBoard.forEach(() => {
         const square = document.createElement("div");
         square.className = "square";
@@ -19,42 +17,39 @@ const createBoard = (() => {
 
     //Reset
     function reset() {
-        gameBoard[i] = "";
-        theBoard[i] = "";    
+        const squares = document.querySelectorAll(".square")
+        theBoard = Array.from(board.children);
+        squares.forEach((item) => {
+            item.innerText = "";
+        });  
     }
 
     //Reset button listener
-    const squares = document.querySelectorAll(".square")
     document.getElementById("restart").addEventListener("click", ()=> {
-        squares.forEach(item => {
-                item.innerText = "";
-                reset();
-                gameController.reset();
-        })
-    });
+        reset();
+        gameController.reset();
+    })
     
     //Event listener for squares - prevents selecting an occupied space.
     let theBoard = Array.from(board.children)
     theBoard.forEach((element,index) => {
         element.addEventListener('click', () => {
+            console.log(gameController.gameOver)
             if (element.innerText != "" || gameController.gameOver === true) {
-                console.log("Game Over")
                 return;
             }
             else
                 element.innerText = gameController.player.sign;
                 theBoard[index] = gameController.player.sign;
-                console.log(theBoard[index])
-                gameController.gameWon(gameController.player);
-                console.log(gameController.gameOver)
+                gameController.gameWon(gameController.player, theBoard);
                 gameController.takeTurn(gameController.player);
         });
     });
 
     return {
-        theBoard
+        theBoard,
+        reset
     }
-    
 })();
 
 const gameController = (() => {
@@ -66,18 +61,16 @@ const gameController = (() => {
     let display = document.getElementById("display");
     display.innerText = "It is " + player.sign + "'s turn. Choose a square.";
 
-
     //Takes a players turn and switches player.
     takeTurn = function(currentPlayer) {
-        turn++;
-        console.log(turn)
+        console.log(gameOver)
+        this.turn++;
         if (gameOver === true) {
-            return this.gameOver = true;
+            return gameOver = true;
         }
         else if (turn === 9) {
             console.log("draw")
             display.innerText = "Game over: Draw!"
-            return this.gameOver = true;
         }
         else if (currentPlayer === playerOne) {
             this.player = playerTwo;
@@ -91,9 +84,11 @@ const gameController = (() => {
 
     //Reset
     function reset() {
-        player = playerOne;
-        display.innerText = "It is " + player.sign + "'s turn. Choose a square";
+        console.log("ran")
+        this.player = playerOne;
+        display.innerText = "It is " + player.sign + "'s turn. Choose a square.";
         gameOver = false;
+        this.turn = 0; 
     }
 
     //Winning Combos
@@ -109,19 +104,16 @@ const gameController = (() => {
     ];
 
     //Determine if the array matches a winning combo
-    function gameWon(currentPlayer) {
-        console.log(this.player.sign)
+    function gameWon(currentPlayer, gameBoard) {
         winningCombo.forEach(function(element) {  
-            if (createBoard.theBoard[element[0] -1] === currentPlayer.sign && createBoard.theBoard[element[1] -1] === currentPlayer.sign && createBoard.theBoard[element[2] -1 ] === currentPlayer.sign) {
+            if (gameBoard[element[0] -1] === currentPlayer.sign && gameBoard[element[1] -1] === currentPlayer.sign && gameBoard[element[2] -1 ] === currentPlayer.sign) {
                 gameOver = true;
                 display.innerText = "Game over! " + currentPlayer.sign + " has won!";
-                console.log("win");
-                console.log(turns)
+                console.log(gameOver)
             }
         })   
     }
-
-    //Game Over
+    
    return {
         player,
         gameWon,

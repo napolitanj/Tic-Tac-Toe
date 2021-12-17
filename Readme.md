@@ -4,9 +4,21 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
--------------
+-----------
+Version 0.8
+-----------
+
+Updates:
+
+- The game now resets properly and is nearly completely functional...
+
+Bugs:
+
+- the game allows the user to continue to attribute squares after a game ends.
+
+-----------------
 Version 0.7-0.7.3
--------------
+-----------------
 
 Updates:
 
