@@ -17,13 +17,19 @@ const createBoard = (() => {
         board.appendChild(square);
     });
 
-    //Reset button
+    //Reset
+    function reset() {
+        gameBoard[i] = "";
+        theBoard[i] = "";    
+    }
+
+    //Reset button listener
     const squares = document.querySelectorAll(".square")
     document.getElementById("restart").addEventListener("click", ()=> {
         squares.forEach(item => {
-            item.innerText = "";
-            gameBoard[i] = "";
-            theBoard[i] = "";
+                item.innerText = "";
+                reset();
+                gameController.reset();
         })
     });
     
@@ -36,13 +42,12 @@ const createBoard = (() => {
                 return;
             }
             else
-            element.innerText = gameController.player.sign;
-            theBoard[index] = gameController.player.sign;
-            console.log(theBoard[index])
-            gameController.gameWon(gameController.player);
-            console.log(gameController.gameOver)
-            gameController.takeTurn(gameController.player);
-        
+                element.innerText = gameController.player.sign;
+                theBoard[index] = gameController.player.sign;
+                console.log(theBoard[index])
+                gameController.gameWon(gameController.player);
+                console.log(gameController.gameOver)
+                gameController.takeTurn(gameController.player);
         });
     });
 
@@ -56,25 +61,39 @@ const gameController = (() => {
     const playerOne = createPlayer("Player 1", "X");
     const playerTwo = createPlayer("Player 2", "O");
     let gameOver = false;
-    let turns = 9;
+    let turn = 0;
     let player = playerOne;
     let display = document.getElementById("display");
-    display.innerText = "It is " + player.sign + "'s turn. Choose a square";
+    display.innerText = "It is " + player.sign + "'s turn. Choose a square.";
 
 
     //Takes a players turn and switches player.
     takeTurn = function(currentPlayer) {
+        turn++;
+        console.log(turn)
         if (gameOver === true) {
             return this.gameOver = true;
         }
+        else if (turn === 9) {
+            console.log("draw")
+            display.innerText = "Game over: Draw!"
+            return this.gameOver = true;
+        }
         else if (currentPlayer === playerOne) {
-            this.player = playerTwo
-            display.innerText = "It is " + this.player.sign + "'s turn. Choose a square";
+            this.player = playerTwo;
+            display.innerText = "It is " + this.player.sign + "'s turn. Choose a square.";
         }
         else if (currentPlayer === playerTwo) {
-            this.player = playerOne
-            display.innerText = "It is " + this.player.sign + "'s turn. Choose a square";
+            this.player = playerOne;
+            display.innerText = "It is " + this.player.sign + "'s turn. Choose a square.";
         }
+    }
+
+    //Reset
+    function reset() {
+        player = playerOne;
+        display.innerText = "It is " + player.sign + "'s turn. Choose a square";
+        gameOver = false;
     }
 
     //Winning Combos
@@ -94,20 +113,21 @@ const gameController = (() => {
         console.log(this.player.sign)
         winningCombo.forEach(function(element) {  
             if (createBoard.theBoard[element[0] -1] === currentPlayer.sign && createBoard.theBoard[element[1] -1] === currentPlayer.sign && createBoard.theBoard[element[2] -1 ] === currentPlayer.sign) {
-            gameOver = true;
-            display.innerText = "Game over! " + currentPlayer.sign + " has won!";
-            console.log("win");
+                gameOver = true;
+                display.innerText = "Game over! " + currentPlayer.sign + " has won!";
+                console.log("win");
+                console.log(turns)
             }
-        })
+        })   
     }
-
 
     //Game Over
    return {
         player,
         gameWon,
         takeTurn,
-        gameOver
+        gameOver,
+        reset
    }
 
 })();
