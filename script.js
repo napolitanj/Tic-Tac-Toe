@@ -34,8 +34,8 @@ const createBoard = (() => {
     let theBoard = Array.from(board.children)
     theBoard.forEach((element,index) => {
         element.addEventListener('click', () => {
-            console.log(gameController.gameOver)
-            if (element.innerText != "" || gameController.gameOver === true) {
+            console.log(gameController.retrieveGameOver)
+            if (element.innerText != "" || gameController.retrieveGameOver() === true) {
                 return;
             }
             else
@@ -63,8 +63,7 @@ const gameController = (() => {
 
     //Takes a players turn and switches player.
     takeTurn = function(currentPlayer) {
-        console.log(gameOver)
-        this.turn++;
+        turn++;
         if (gameOver === true) {
             return gameOver = true;
         }
@@ -88,7 +87,7 @@ const gameController = (() => {
         this.player = playerOne;
         display.innerText = "It is " + player.sign + "'s turn. Choose a square.";
         gameOver = false;
-        this.turn = 0; 
+        turn = 0; 
     }
 
     //Winning Combos
@@ -113,12 +112,17 @@ const gameController = (() => {
             }
         })   
     }
+
+    //Exports updated Game Over status to other module.
+    const retrieveGameOver = () => {
+        return gameOver;
+    };
     
    return {
         player,
         gameWon,
         takeTurn,
-        gameOver,
+        retrieveGameOver,
         reset
    }
 

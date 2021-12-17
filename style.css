@@ -21,6 +21,7 @@ body {
 
 .header {
     color: #e4f1fe;
+    text-shadow: 1px 1px grey;
     background-color: #34495e;
     font-size:40px;
 }
@@ -30,12 +31,23 @@ body {
     flex-direction:row;
 }
 
+.display {
+    background-color:lightblue;
+    color:black;
+    padding: 20px;
+    margin:30px;
+    border: solid black 4px;
+    border-radius:15px;
+    height: 100px;
+    width:500px;
+}
 .restart {
     height:50px;
     width:150px;
     font-family:sans-serif;
     font-size:20px;
     padding:10px;
+    box-shadow:3px 3px;
 }
 
 .square {
@@ -44,10 +56,24 @@ body {
     text-align: center;
     line-height:90px;
     font-size: 50px;
+    color:black;
     border: solid black 1px;
     background-color:lightblue;
     margin: 4px;
     cursor: pointer;
+}
+
+.square:hover, .restart:hover {
+    transform:translateY(1px);
+}
+
+.restart:hover {
+    box-shadow:2px 2px;
+}
+
+.square:active, .restart:active {
+    transform:translateY(2px);
+    box-shadow:0px 0px;
 }
 
 .board {

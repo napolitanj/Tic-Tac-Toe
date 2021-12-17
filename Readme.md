@@ -5,6 +5,14 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
 -----------
+Version 1.0
+-----------
+
+The game works functionally in all basic aspects!
+
+Added animations to buttons for hover and activity.
+
+-----------
 Version 0.8
 -----------
 
