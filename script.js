@@ -32,6 +32,7 @@ const createBoard = (() => {
     theBoard.forEach((element,index) => {
         element.addEventListener('click', () => {
             if (element.innerText != "" || gameController.gameOver === true) {
+                console.log("Game Over")
                 return;
             }
             else
@@ -39,7 +40,9 @@ const createBoard = (() => {
             theBoard[index] = gameController.player.sign;
             console.log(theBoard[index])
             gameController.gameWon(gameController.player);
-            gameController.takeTurn(gameController.player); 
+            console.log(gameController.gameOver)
+            gameController.takeTurn(gameController.player);
+        
         });
     });
 
@@ -52,17 +55,17 @@ const createBoard = (() => {
 const gameController = (() => {
     const playerOne = createPlayer("Player 1", "X");
     const playerTwo = createPlayer("Player 2", "O");
-        let gameOver = false;
-        let turns = 9;
-        player = playerOne;
-        let display = document.getElementById("display");
-        display.innerText = "It is " + player.sign + "'s turn. Choose a square";
+    let gameOver = false;
+    let turns = 9;
+    let player = playerOne;
+    let display = document.getElementById("display");
+    display.innerText = "It is " + player.sign + "'s turn. Choose a square";
 
 
     //Takes a players turn and switches player.
     takeTurn = function(currentPlayer) {
         if (gameOver === true) {
-            return;
+            return this.gameOver = true;
         }
         else if (currentPlayer === playerOne) {
             this.player = playerTwo
@@ -92,8 +95,8 @@ const gameController = (() => {
         winningCombo.forEach(function(element) {  
             if (createBoard.theBoard[element[0] -1] === currentPlayer.sign && createBoard.theBoard[element[1] -1] === currentPlayer.sign && createBoard.theBoard[element[2] -1 ] === currentPlayer.sign) {
             gameOver = true;
-            display.innerText = "Game over! " + currentPlayer.sign + " has won!"
-            console.log("win")
+            display.innerText = "Game over! " + currentPlayer.sign + " has won!";
+            console.log("win");
             }
         })
     }
@@ -103,7 +106,8 @@ const gameController = (() => {
    return {
         player,
         gameWon,
-        takeTurn
+        takeTurn,
+        gameOver
    }
 
 })();

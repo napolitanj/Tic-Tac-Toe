@@ -5,20 +5,13 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
 -------------
-Version 0.7.1
+Version 0.7-0.7.2
 -------------
 
 Updates:
 
+- Acknowledges when the game has ended and stops taking input.
 - Acknowledges when both O and X have won.
-
-
------------
-Version 0.7
------------
-
-Updates:
-
 - Acknowledges when a game is won, but only for X.
 
 -----------
