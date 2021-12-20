@@ -2,6 +2,7 @@ const createPlayer = (playerName, sign) => {
     return {playerName, sign};
 }
 
+//Board interface
 const createBoard = (() => {
     const board = document.getElementById("board");
     let gameBoard = [];
@@ -9,7 +10,7 @@ const createBoard = (() => {
     //Create board array and generate graphic
     for(i = 0; i < 9; i++) 
         gameBoard.push("");
-    gameBoard.forEach(() => {
+        gameBoard.forEach(() => {
         const square = document.createElement("div");
         square.className = "square";
         board.appendChild(square);
@@ -29,12 +30,18 @@ const createBoard = (() => {
         reset();
         gameController.reset();
     })
+
+    //AI button listener
+    document.getElementById("artificial").addEventListener("click", ()=> {
+        gameController.artificialSwitch();
+        reset();
+        gameController.reset();
+    })
     
     //Event listener for squares - prevents selecting an occupied space.
     let theBoard = Array.from(board.children)
     theBoard.forEach((element,index) => {
         element.addEventListener('click', () => {
-            console.log(gameController.retrieveGameOver)
             if (element.innerText != "" || gameController.retrieveGameOver() === true) {
                 return;
             }
@@ -43,18 +50,51 @@ const createBoard = (() => {
                 theBoard[index] = gameController.player.sign;
                 gameController.gameWon(gameController.player, theBoard);
                 gameController.takeTurn(gameController.player);
+                if (gameController.retrieveArt() === true) {
+                    artificialMove();
+                }
         });
     });
 
+    //AI "Artificial Idiot" move
+    function artificialMove() {
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        let move = getRandomInt(0,8);
+        let game = theBoard;
+    
+        function artificialTurn(array, index) {
+            if (gameController.retrieveGameOver() === true) {
+                return;
+            }
+            else if (array[index].innerText === "") {
+                array[index].innerText = "O";
+                theBoard[index] = "O"
+                gameController.gameWon(gameController.player, theBoard);
+                gameController.takeTurn(gameController.player);
+            }
+            else {
+                artificialMove();
+            }
+        }
+        artificialTurn(game, move)
+    }
+
     return {
         theBoard,
-        reset
+        reset,
     }
 })();
+
 
 const gameController = (() => {
     const playerOne = createPlayer("Player 1", "X");
     const playerTwo = createPlayer("Player 2", "O");
+    let arti = false;
     let gameOver = false;
     let turn = 0;
     let player = playerOne;
@@ -68,8 +108,8 @@ const gameController = (() => {
             return gameOver = true;
         }
         else if (turn === 9) {
-            console.log("draw")
             display.innerText = "Game over: Draw!"
+            return gameOver = true;
         }
         else if (currentPlayer === playerOne) {
             this.player = playerTwo;
@@ -83,11 +123,11 @@ const gameController = (() => {
 
     //Reset
     function reset() {
-        console.log("ran")
         this.player = playerOne;
         display.innerText = "It is " + player.sign + "'s turn. Choose a square.";
         gameOver = false;
-        turn = 0; 
+        turn = 0;
+        arti - retrieveArt();
     }
 
     //Winning Combos
@@ -108,7 +148,6 @@ const gameController = (() => {
             if (gameBoard[element[0] -1] === currentPlayer.sign && gameBoard[element[1] -1] === currentPlayer.sign && gameBoard[element[2] -1 ] === currentPlayer.sign) {
                 gameOver = true;
                 display.innerText = "Game over! " + currentPlayer.sign + " has won!";
-                console.log(gameOver)
             }
         })   
     }
@@ -117,13 +156,34 @@ const gameController = (() => {
     const retrieveGameOver = () => {
         return gameOver;
     };
+
+    //Switches between artificial and human opponent
+    function artificialSwitch() {
+        if (arti === true) {
+            document.getElementById("artificial").innerText = "Play vs. AI";
+            arti=false;
+        } 
+        else {
+            document.getElementById("artificial").innerText = "Play vs. Human";
+            arti=true;
+        }
+        console.log(arti)
+    }
+
+    //Exports updated status of AI/Human opponent
+    function retrieveArt() {
+        console.log("retrieve art reports" + arti)
+        return arti;
+    }
     
    return {
         player,
         gameWon,
         takeTurn,
         retrieveGameOver,
-        reset
+        reset,
+        artificialSwitch,
+        retrieveArt,
+        arti
    }
-
 })();

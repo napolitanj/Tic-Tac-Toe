@@ -5,10 +5,16 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
 -----------
+Version 2.0
+-----------
+
+Added an option to play against an "artificial idiot" that selects random squares.
+
+-----------
 Version 1.0
 -----------
 
-The game works functionally in all basic aspects!
+The game works in all basic aspects!
 
 Added animations to buttons for hover and activity.
 
