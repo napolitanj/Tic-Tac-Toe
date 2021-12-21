@@ -5,6 +5,12 @@ This application is for The Odin Project's "Tic-Tac-Toe" Project.
 My goal with this project is to demonstrate and develop understanding of modules and factor functions
 
 -----------
+Version 3.0
+-----------
+
+Score keeping added to the interface.
+
+-----------
 Version 2.0
 -----------
 

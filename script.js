@@ -1,5 +1,5 @@
-const createPlayer = (playerName, sign) => {
-    return {playerName, sign};
+const createPlayer = (score, sign) => {
+    return {score, sign};
 }
 
 //Board interface
@@ -84,19 +84,28 @@ const createBoard = (() => {
         artificialTurn(game, move)
     }
 
+    //Updates Score
+    function updateScore(one,two,draw) {
+        document.getElementById("playerOne").innerText="X: " + one + " wins";
+        document.getElementById("playerTwo").innerText="O: " + two + " wins";
+        document.getElementById("draws").innerText="Draws: " + draw;
+    }
+
     return {
         theBoard,
         reset,
+        updateScore
     }
 })();
 
 
 const gameController = (() => {
-    const playerOne = createPlayer("Player 1", "X");
-    const playerTwo = createPlayer("Player 2", "O");
+    const playerOne = createPlayer(0, "X");
+    const playerTwo = createPlayer(0, "O");
     let arti = false;
     let gameOver = false;
     let turn = 0;
+    let draws = 0;
     let player = playerOne;
     let display = document.getElementById("display");
     display.innerText = "It is " + player.sign + "'s turn. Choose a square.";
@@ -109,6 +118,9 @@ const gameController = (() => {
         }
         else if (turn === 9) {
             display.innerText = "Game over: Draw!"
+            draws += 1;
+            console.log(draws)
+            createBoard.updateScore(playerOne.score,playerTwo.score,draws);
             return gameOver = true;
         }
         else if (currentPlayer === playerOne) {
@@ -148,6 +160,8 @@ const gameController = (() => {
             if (gameBoard[element[0] -1] === currentPlayer.sign && gameBoard[element[1] -1] === currentPlayer.sign && gameBoard[element[2] -1 ] === currentPlayer.sign) {
                 gameOver = true;
                 display.innerText = "Game over! " + currentPlayer.sign + " has won!";
+                currentPlayer.score += 1;
+                createBoard.updateScore(playerOne.score,playerTwo.score,draws);
             }
         })   
     }
@@ -167,12 +181,10 @@ const gameController = (() => {
             document.getElementById("artificial").innerText = "Play vs. Human";
             arti=true;
         }
-        console.log(arti)
     }
 
     //Exports updated status of AI/Human opponent
     function retrieveArt() {
-        console.log("retrieve art reports" + arti)
         return arti;
     }
     
@@ -184,6 +196,8 @@ const gameController = (() => {
         reset,
         artificialSwitch,
         retrieveArt,
-        arti
+        playerOne,
+        playerTwo,
+        draws
    }
 })();
